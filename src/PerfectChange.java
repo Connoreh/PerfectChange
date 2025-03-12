@@ -32,7 +32,7 @@ public class PerfectChange {
                     perfectChange(userChoice);
                 }
                 else {
-//                    makeChange(userChoice);
+                    makeChange(userChoice);
                     makeChangeDiv(userChoice);
                 }
             }
@@ -112,10 +112,13 @@ public class PerfectChange {
 
 
         if (doh > 0) {
-            if ((r / 10) >= 1 && (r / 10) <= doh) {
+            if ((r / 10) >= 1) {
 
 
                 d = r / 10; // dimes to give
+                if ( d > doh){
+                    d = doh;
+                }
                 r = r - (d * 10);
                 doh = doh - d;
             } else {
@@ -252,8 +255,8 @@ public class PerfectChange {
                     poh + " penn(ies). ");
 
         } else {
-            System.out.println(q);
-            System.out.println(qoh);
+//            System.out.println(q + " " + d + " " + n + " " + p);
+//            System.out.println(qoh);
 
 
 //            System.out.println(c);
