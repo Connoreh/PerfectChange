@@ -1,17 +1,18 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class PerfectChange {
     static Scanner sc = new Scanner(System.in);
     static int qoh, doh, noh, poh; // Quarters.dimes,nickels,pennies on hand
-//    static int c = 0;
+
 
 
     public static void main(String[] args) {
-        int c = 0;
         String menu;
         int userChoice;
         boolean usingSet;
         usingSet = getCoinSet();
+        Random rnd = new Random();
         System.out.println("Using set is " + usingSet);
         menu = "What value would you like change for? (# cents, -1=New Coin set, -2=All or 0=quit)";
         userChoice = UserInput.getInt(menu, -2);
@@ -32,8 +33,13 @@ public class PerfectChange {
                     perfectChange(userChoice);
                 }
                 else {
-                    makeChange(userChoice);
-                    makeChangeDiv(userChoice);
+                    if (rnd.nextInt(2) == 0) {
+                        makeChange(userChoice);
+                    } else {
+
+
+                        makeChangeDiv(userChoice);
+                    }
                 }
             }
 //            System.out.println("You are in the loop");
@@ -73,10 +79,10 @@ public class PerfectChange {
         d = r / 10; // dimes to give
         r = r - (d * 10);
 
-        n = r / 5;
+        n = r / 5; //nickels to give
         r = r - (n * 5);
 
-        p = r;
+        p = r; // pennies
 
         System.out.println("By the DIV method, for " + cents + " cents I give: " +
                 q + " quarter(s), " +
@@ -94,11 +100,11 @@ public class PerfectChange {
 //        int qReturned = 0, dReturned = 0, nReturned = 0, pReturned = 0, r = cents;
 
         int q, d, n, p, r = cents;
-        if (qoh > 0 && (r/25 >= 1)) {
+        if (qoh > 0 && (r/25 >= 1)) { // if enough quarters on hand and cent amounts over 25, add quarter to count
 
 
                 q = (r / 25);
-                if( q > qoh){
+                if( q > qoh){ // if q is more than qoh, set equal to qoh
                     q = qoh;
                 }
 //                q = r / 25; // quarters to give
@@ -111,25 +117,22 @@ public class PerfectChange {
 //            r = r - (q * 25);
 
 
-        if (doh > 0) {
-            if ((r / 10) >= 1) {
+        if (doh > 0 && (r / 10) >= 1) { // if dimes are on hand and count is over 10 cents
 
 
                 d = r / 10; // dimes to give
                 if ( d > doh){
-                    d = doh;
+                    d = doh; // if dimes on hand is less than d to give, d to give = dimes on hand
                 }
                 r = r - (d * 10);
                 doh = doh - d;
-            } else {
-                d = 0;
             }
-        } else {
+         else {
             d = 0;
         }
 
-        if (noh > 0) {
-            if ((r / 5) >= 1) {
+        if (noh > 0 && (r / 5) >= 1) {
+
 
 
                 n = (r / 5);
@@ -138,32 +141,30 @@ public class PerfectChange {
                 }
                 r = r - (n * 5);
                 noh = noh - n;
-            } else {
-                n = 0;
             }
-        } else {
+         else {
             n = 0;
         }
-            if (r > 0) {
-                if (r <= poh) {
+            if (r > 0) { // if cents are remaining
+                if (r <= poh) { // if cents remaining are less than pennies on hand , set equal to pennies
                     p = r;
                     poh = poh - p;
                     r = r - p;
-                } else {
+                } else {//
                     qoh = q + qoh;
                     doh = d + doh;
                     noh = n + noh;
-                    p = 0;
+                    p = poh;
                     r = r - poh;
 
 
                 }
             }
-            else if (r != 0) {
+            else if (r != 0) { // if change is not perfectly sorted, return all previous loop iterations back to the coin count on hand.
                 qoh = q + qoh;
                 doh = d + doh;
                 noh = n + noh;
-                p = 0;
+                p = poh;
             }
 
 //                }
